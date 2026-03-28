@@ -1,5 +1,5 @@
 import pygame
-
+from Piece_Moveset import *
 
 def main():
     # pygame setup
@@ -14,7 +14,9 @@ def main():
 
     black_square = (width/8, width/8)
 
-    pieces = {"pawn": 1}
+    pieces = {"Pawn": 1,
+              "Rook": 2 }
+    
 
     board = [[],
              [],
@@ -36,10 +38,13 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     running = False
+        
+        
             
 
         screen.fill("white")
-        pygame.draw.rect(screen,(0,0,0), (0,00,black_square[0],black_square[1]))
+
+
 
 
         # flip() the display to put your work on screen
