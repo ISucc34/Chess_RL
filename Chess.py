@@ -1,7 +1,11 @@
 import pygame
 from Piece_Moveset import *
 
+
 def main():
+
+
+    
     # pygame setup
     pygame.init()
 
@@ -12,7 +16,8 @@ def main():
     clock = pygame.time.Clock()
     running = True
 
-    black_square = (width/8, width/8)
+    background = pygame.image.load("sprites/chessboard.png").convert()
+    background = pygame.transform.scale(background, (width, height))
 
     pieces = {"Pawn": 1,
               "Rook": 2 }
@@ -42,7 +47,7 @@ def main():
         
         
         screen.fill("white")
-
+        screen.blit(background, (0,0))
 
 
         # flip() the display to put your work on screen
