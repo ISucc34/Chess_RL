@@ -18,14 +18,14 @@ def main():
               "Rook": 2 }
     
 
-    board = [[],
-             [],
-             [],
-             [],
-             [],
-             [],
-             [],
-             []]
+    board = [[Rook((0,0)), 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [Pawn(), 0, 0, 0, 0, 0, 0]]
 
     while running:
         # poll for events
@@ -33,6 +33,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        
 
 
             if event.type == pygame.KEYDOWN:
@@ -40,10 +41,7 @@ def main():
                     running = False
         
         
-            
-
         screen.fill("white")
-
 
 
 
