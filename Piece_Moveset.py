@@ -1,9 +1,10 @@
 class Rook():
-    def __init__(self, pos):
-        self.pos = pos
+    def __init__(self, currPos, newPos):
+        self.currPos = currPos
+        self.newPos = newPos
         self.value = 9
-    def move(pos):
-        pos
+    def move(currPos, newPos):
+        pass
         
 class Bishop():
     def __init__(self, pos):

@@ -2,15 +2,17 @@ import pygame
 from pygame.math import Vector2
 from Piece_Moveset import *
 
-
+#Pieces png is 1984x1984 
 
 #black_square = (width/64, height/64)
 #white_square = (width/64, height/64)
 
 class GameState():
     def __init__(self):
+        self.boardSize
         self.board = []
-        pass
+        self.activeBlackPieces = []
+        self.activeWhitePieces = []
     def update(self, piece, newPos):
         self.piece = piece
         self.newPos = newPos
@@ -21,11 +23,15 @@ class Chess():
     def __init__(self):
         pygame.init()
 
-       
         self.gamestate = GameState()
 
+        #Board
+
+        cellSize = Vector2(350,550)
+        
+
         #Pieces textures
-        self.pawn = pygame.image.load("sprites/WhitePawn.png")
+        self.pawn = pygame.image.load("sprites/ChessP.png")
         
         self.width = 720
         self.height = 720
@@ -48,7 +54,7 @@ class Chess():
 
     def render(self):
         self.screen.fill((0,0,0))
-        self.screen.blit(self.pawn, (100,100))
+        self.screen.blit(self.pawn, (0,0), (0,0,350,550))
 
         pygame.display.flip()
         pygame.display.update()
