@@ -9,7 +9,7 @@ from Piece_Moveset import *
 
 class GameState():
     def __init__(self):
-        self.boardSize
+        self.boardSize = 0
         self.board = []
         self.activeBlackPieces = []
         self.activeWhitePieces = []
@@ -26,12 +26,10 @@ class Chess():
         self.gamestate = GameState()
 
         #Board
-
-        cellSize = Vector2(350,550)
-        
+        cellSize = Vector2(64,64)
 
         #Pieces textures
-        self.pawn = pygame.image.load("sprites/ChessP.png")
+        self.pieces = pygame.image.load("sprites/ChessP.png")
         
         self.width = 720
         self.height = 720
@@ -54,7 +52,10 @@ class Chess():
 
     def render(self):
         self.screen.fill((0,0,0))
-        self.screen.blit(self.pawn, (0,0), (0,0,350,550))
+    
+        #Gets black pawn sprite
+        self.pieces = pygame.transform.scale(self.pieces,(250,250))
+        self.screen.blit(self.pieces, (100,200), (0,0,45,70))
 
         pygame.display.flip()
         pygame.display.update()
