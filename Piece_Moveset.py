@@ -2,6 +2,13 @@ from Chess import *
 import pygame
 
 
+class Piece():
+    def __init__(self):
+        pass
+    def getSprite(self):
+        pass
+
+
 class Rook():
     def __init__(self, currPos, newPos):
         self.currPos = currPos
