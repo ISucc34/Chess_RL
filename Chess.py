@@ -13,10 +13,10 @@ class GameState():
         self.board = []
         self.activeBlackPieces = []
         self.activeWhitePieces = []
+
     def update(self, piece, newPos):
         self.piece = piece
         self.newPos = newPos
-        pass
 
 
 class Chess():
@@ -29,7 +29,8 @@ class Chess():
         cellSize = Vector2(64,64)
 
         #Pieces textures
-        self.pieces = pygame.image.load("sprites/ChessP.png")
+        self.pieces = pygame.image.load("t.png")
+        self.pawn = Pawn(0);
         
         self.width = 720
         self.height = 720
@@ -48,14 +49,14 @@ class Chess():
                 print("click")
 
     def update(self):
-        self.gamestate.update(self.pawn, (0,0))
+        self.gamestate.update(self.pieces, (0,0))
 
     def render(self):
         self.screen.fill((0,0,0))
     
         #Gets black pawn sprite
-        self.pieces = pygame.transform.scale(self.pieces,(250,250))
-        self.screen.blit(self.pieces, (100,200), (0,0,45,70))
+        self.pieces = pygame.transform.scale(self.pieces,(64,64))
+        self.screen.blit(self.pawn, (0,0), self.pawn.rect)
 
         pygame.display.flip()
         pygame.display.update()

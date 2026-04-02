@@ -1,3 +1,6 @@
+import pygame
+
+
 class Rook():
     def __init__(self, currPos, newPos):
         self.currPos = currPos
@@ -24,6 +27,9 @@ class Pawn():
     def __init__(self, pos):
         self.pos = pos
         self.value = 9
+        self.rect = pygame.rect(0,0,64,64)
+        self.sprite = "t.png"
+        
     def move(pos):
         pos
 
