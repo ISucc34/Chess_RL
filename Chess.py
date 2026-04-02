@@ -58,7 +58,7 @@ class Chess():
         self.screen.fill((0,0,0))
     
         #Shows black pawn sprite
-        self.rect, self.sprite = self.p.getSprite()
+        self.rect, self.sprite = self.p.getSprite("t.png")
         self.s = pygame.image.load(self.sprite)
         self.s = pygame.transform.scale(self.s,(64,64))
 

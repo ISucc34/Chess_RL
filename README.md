@@ -32,4 +32,4 @@ Pygame
 
 ## Process
 
-I first began with creating the game of chess.
+I first began with creating the game of chess. I created the sprites, and followed this tutorial before in order to learn the pygame library 

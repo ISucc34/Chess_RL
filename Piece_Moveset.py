@@ -8,26 +8,16 @@ class Piece():
         self.value = 0
     def update(self, newPos):
         self.currPos = newPos
-    def getSprite(self):
+    def getSprite(self, img):
         self.rect = (0,0,64,64)
-        pass
-
-class Pawn():
-    def __init__(self, pos):
-        self.pos = pos
-        self.value = 9
-    def getSprite(self):
-        self.rect = (0,0,64,64)
-        self.sprite = "t.png"
+        self.sprite = img
         return self.rect, self.sprite
+
+class Pawn(Piece):
+    def __init__(self, currPos):
+        super().__init__(currPos = currPos)
+        self.value = 1
         
-    def spawnSprite(self, window):
-        self.window = window
-        self.window.blit(self.sprite, (20,20), self.rect)
-
-    def move(pos):
-        pos
-
 class Rook():
     def __init__(self, currPos):
         self.currPos = currPos
