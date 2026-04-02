@@ -1,3 +1,4 @@
+from Chess import *
 import pygame
 
 
@@ -27,9 +28,15 @@ class Pawn():
     def __init__(self, pos):
         self.pos = pos
         self.value = 9
-        self.rect = pygame.rect(0,0,64,64)
+    def getSprite(self):
+        self.rect = (0,0,64,64)
         self.sprite = "t.png"
+        return self.rect, self.sprite
         
+    def spawnSprite(self, window):
+        self.window = window
+        self.window.blit(self.sprite, (20,20), self.rect)
+
     def move(pos):
         pos
 

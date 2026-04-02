@@ -29,9 +29,8 @@ class Chess():
         cellSize = Vector2(64,64)
 
         #Pieces textures
-        self.pieces = pygame.image.load("t.png")
-        self.pawn = Pawn(0);
-        
+        self.p = Pawn(10)
+
         self.width = 720
         self.height = 720
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -49,14 +48,19 @@ class Chess():
                 print("click")
 
     def update(self):
-        self.gamestate.update(self.pieces, (0,0))
+        self.gamestate.update(self.p, (0,0))
 
     def render(self):
         self.screen.fill((0,0,0))
     
         #Gets black pawn sprite
-        self.pieces = pygame.transform.scale(self.pieces,(64,64))
-        self.screen.blit(self.pawn, (0,0), self.pawn.rect)
+
+        self.rect, self.sprite = self.p.getSprite()
+        self.s = pygame.image.load(self.sprite)
+        self.s= pygame.transform.scale(self.s,(64,64))
+
+
+        self.screen.blit(self.s, (0,0), self.rect)
 
         pygame.display.flip()
         pygame.display.update()
