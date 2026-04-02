@@ -7,8 +7,11 @@ from Piece_Moveset import *
 #black_square = (width/64, height/64)
 #white_square = (width/64, height/64)
 
+
+#Gamestate controls what state the game is in for ex: where every piece is
 class GameState():
     def __init__(self):
+        #Sets up the board
         self.boardSize = 0
         self.board = []
         self.activeBlackPieces = []
@@ -18,7 +21,7 @@ class GameState():
         self.piece = piece
         self.newPos = newPos
 
-
+#Actual game logic
 class Chess():
     def __init__(self):
         pygame.init()
@@ -37,6 +40,7 @@ class Chess():
         self.clock = pygame.time.Clock()
         self.running = True
 
+    #TODO: Process mouse input and click
     def processInput(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -53,11 +57,10 @@ class Chess():
     def render(self):
         self.screen.fill((0,0,0))
     
-        #Gets black pawn sprite
-
+        #Shows black pawn sprite
         self.rect, self.sprite = self.p.getSprite()
         self.s = pygame.image.load(self.sprite)
-        self.s= pygame.transform.scale(self.s,(64,64))
+        self.s = pygame.transform.scale(self.s,(64,64))
 
 
         self.screen.blit(self.s, (0,0), self.rect)
@@ -65,7 +68,7 @@ class Chess():
         pygame.display.flip()
         pygame.display.update()
             
-
+    #Game loop
     def run(self):
         while self.running:
             self.processInput()
@@ -74,7 +77,7 @@ class Chess():
             self.clock.tick(60) #Limit to 60 fps
 
 
-
+#TODO: Implement layers 1st layer is the board, second layer are the piece sprites
 def Layer():
     def __init__(self, imageFile):
         self.imageFile = imageFile
@@ -88,7 +91,7 @@ def Layer():
 
 
 
-
+#Good naming convention on triple T sahur
 if __name__ == "__main__":
     game = Chess()
     game.run()

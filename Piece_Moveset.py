@@ -1,7 +1,7 @@
 from Chess import *
 import pygame
 
-
+#Abstract Class template
 class Piece():
     def __init__(self):
         pass
