@@ -18,40 +18,40 @@ class Pawn(Piece):
         super().__init__(currPos = currPos)
         self.value = 1
         
-class Rook():
+class Rook(Piece):
     def __init__(self, currPos):
-        self.currPos = currPos
-        self.value = 9
+        super().__init__(currPos)
+        self.value = 5
     def move(currPos, newPos):
         pass
         
-class Bishop():
+class Bishop(Piece):
     def __init__(self, pos):
-        self.pos = pos
-        self.value = 9
+        super().__init__(pos)
+        self.value = 3
     def move(pos):
         pos
 
-class Knight():
+class Knight(Piece):
     def __init__(self, pos):
-        self.pos = pos
-        self.value = 9
-    def move(pos):
-        pos
-
-
-
-class Queen():
-    def __init__(self, pos):
-        self.pos = pos
-        self.value = 9
+            super().__init__(pos)
+            self.value = 3
     def move(pos):
         pos
 
 
-class King():
+
+class Queen(Piece):
     def __init__(self, pos):
-        self.pos = pos
+        super().__init__(pos)
         self.value = 9
+    def move(pos):
+        pos
+
+
+class King(Piece):
+    def __init__(self, pos):
+        super().__init__(pos)
+        self.value = 0
     def move(pos):
         pos
