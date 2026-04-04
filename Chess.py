@@ -12,7 +12,7 @@ from Piece_Moveset import *
 class GameState():
     def __init__(self):
         #Sets up the board
-        self.boardSize = 0
+        self.boardSize = Vector2(16, 10)
         self.board = []
         self.activeBlackPieces = []
         self.activeWhitePieces = []
@@ -29,14 +29,13 @@ class Chess():
         self.gamestate = GameState()
 
         #Board
-        cellSize = Vector2(64,64)
+        self.cellSize = Vector2(64,64)
 
         #Pieces textures
         self.p = Pawn(10)
 
-        self.width = 720
-        self.height = 720
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.windowSize = self.gamestate.boardSize.elementwise()*self.cellSize
+        self.screen = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
         self.clock = pygame.time.Clock()
         self.running = True
 

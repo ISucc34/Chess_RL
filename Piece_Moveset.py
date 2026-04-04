@@ -12,17 +12,21 @@ class Piece():
         self.rect = (0,0,64,64)
         self.sprite = img
         return self.rect, self.sprite
+  
 
 class Pawn(Piece):
     def __init__(self, currPos):
         super().__init__(currPos = currPos)
         self.value = 1
+    def moveSet(self):
+        self.currPos[1] += 1 #move up the column
+        pass
         
 class Rook(Piece):
     def __init__(self, currPos):
         super().__init__(currPos)
         self.value = 5
-    def move(currPos, newPos):
+    def moveSet(self, currPos):
         pass
         
 class Bishop(Piece):
