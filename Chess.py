@@ -1,4 +1,5 @@
 import pygame
+import math
 from pygame.math import Vector2
 from Piece_Moveset import *
 
@@ -12,7 +13,7 @@ from Piece_Moveset import *
 class GameState():
     def __init__(self):
         #Sets up the board
-        self.boardSize = Vector2(16, 10)
+        self.boardSize = Vector2(8, 8)
         self.board = []
         self.activeBlackPieces = []
         self.activeWhitePieces = []
@@ -32,7 +33,7 @@ class Chess():
         self.cellSize = Vector2(64,64)
 
         #Pieces textures
-        self.p = Pawn((0,0))
+        self.p = Pawn(Vector2(0,0))
 
         self.windowSize = self.gamestate.boardSize.elementwise()*self.cellSize
         self.screen = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
@@ -49,11 +50,9 @@ class Chess():
                     self.running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mousePos = pygame.mouse.get_pos()
-                self.p.currPos = self.mousePos
-                print(self.mousePos)
-
-                print("click")
-
+                self.mousePos = Vector2(self.mousePos[0], self.mousePos[1])
+                self.p.currPos = self.mousePos.elementwise()//64
+                print(self.p.currPos)
     def update(self):
         self.gamestate.update(self.p, (0,0))
 
@@ -66,7 +65,7 @@ class Chess():
         self.s = pygame.transform.scale(self.s,(64,64))
 
 
-        self.screen.blit(self.s, self.p.currPos, self.rect)
+        self.screen.blit(self.s, self.p.currPos.elementwise()*self.cellSize, self.rect)
 
         pygame.display.flip()
         pygame.display.update()
