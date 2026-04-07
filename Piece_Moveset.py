@@ -4,7 +4,7 @@ import pygame
 #Abstract Class template
 class Piece():
     def __init__(self, currPos):
-        self.currPos = currPos
+        self.currPos = currPos #Pos in terms of array index
         self.value = 0
     def update(self, newPos):
         self.currPos = newPos
@@ -18,9 +18,13 @@ class Pawn(Piece):
     def __init__(self, currPos):
         super().__init__(currPos = currPos)
         self.value = 1
-    def moveSet(self):
+    def moveSet(self, newpos):
+        self.currPos = newpos
         self.currPos[1] += 1 #move up the column
-        pass
+    def setPos(self, newPos):
+        self.currPos = newPos
+    def getPos(self):
+        return self.currPos
         
 class Rook(Piece):
     def __init__(self, currPos):

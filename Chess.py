@@ -32,7 +32,7 @@ class Chess():
         self.cellSize = Vector2(64,64)
 
         #Pieces textures
-        self.p = Pawn(10)
+        self.p = Pawn((0,0))
 
         self.windowSize = self.gamestate.boardSize.elementwise()*self.cellSize
         self.screen = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
@@ -48,6 +48,10 @@ class Chess():
                 if event.key == pygame.K_q:
                     self.running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.mousePos = pygame.mouse.get_pos()
+                self.p.currPos = self.mousePos
+                print(self.mousePos)
+
                 print("click")
 
     def update(self):
@@ -62,7 +66,7 @@ class Chess():
         self.s = pygame.transform.scale(self.s,(64,64))
 
 
-        self.screen.blit(self.s, (0,0), self.rect)
+        self.screen.blit(self.s, self.p.currPos, self.rect)
 
         pygame.display.flip()
         pygame.display.update()
