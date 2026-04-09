@@ -42,8 +42,8 @@ class GameState():
         ]
 
         for i in range(8):
-            self.piecesOnBoard[1][i] = Pawn(Vector2(1,i))
-            self.piecesOnBoard[6][i] = Pawn(Vector2(6,i), "w")
+            self.piecesOnBoard[1][i] = Pawn(Vector2(i,1))
+            self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "w")
 
 
         #Currently active pieces (Not taken)
