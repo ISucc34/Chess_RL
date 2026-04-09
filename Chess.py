@@ -31,18 +31,18 @@ class GameState():
 
         #Location of the chess pieces
         self.piecesOnBoard = [
-        [Rook(Vector2(0,0)),Knight(Vector2(1,0)),Bishop(Vector2(2,0)), Queen(Vector2(3,0)), King(Vector2(4,0)), Bishop(Vector2(5,0)),Knight(Vector2(6,0)),Rook(Vector2(7,0))],
+        [Rook(Vector2(0,0), "b"),Knight(Vector2(1,0), "b"),Bishop(Vector2(2,0), "b"), Queen(Vector2(3,0), "b"), King(Vector2(4,0), "b"), Bishop(Vector2(5,0), "b"),Knight(Vector2(6,0), "b"),Rook(Vector2(7,0), "b")],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [Rook(Vector2(7,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7), "w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7), "w")]
+        [Rook(Vector2(7,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7),"w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7),"w")]
         ]
 
         for i in range(8):
-            self.piecesOnBoard[1][i] = Pawn(Vector2(i,1))
+            self.piecesOnBoard[1][i] = Pawn(Vector2(i,1), "b")
             self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "w")
 
 
@@ -137,8 +137,8 @@ class Chess():
             
             #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
             #Use the active pieces array to solve this issue
-            self.rect, self.sprite = self.renderPiece.getSprite("t.png")
-            self.s = pygame.image.load(self.sprite)
+            self.rect, self.sprite = self.renderPiece.getSprite()
+            self.s = self.sprite
             self.s = pygame.transform.scale(self.s,(64,64))
 
             self.screen.blit(self.s, self.renderPiece.currPos.elementwise()*self.cellSize, self.rect)
@@ -148,16 +148,12 @@ class Chess():
             
             self.renderPiece = i
 
-            
-            #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
-            #Use the active pieces array to solve this issue
-            self.rect, self.sprite = self.renderPiece.getSprite("t.png")
-            self.s = pygame.image.load(self.sprite)
+            self.rect, self.sprite = self.renderPiece.getSprite()
+            self.s = self.sprite
             self.s = pygame.transform.scale(self.s,(64,64))
 
             self.screen.blit(self.s, self.renderPiece.currPos.elementwise()*self.cellSize, self.rect)
-
-
+            
         pygame.display.flip()
         pygame.display.update()
             
