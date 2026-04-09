@@ -72,9 +72,11 @@ class Chess():
 
     def render(self):
         self.screen.fill((0,0,0))
-        self.screen.fill((255,255,255),self.WhiteRect)
-        self.screen.fill((255,255,255), (0+self.cellSize.x,0+self.cellSize.y, self.cellSize.x, self.cellSize.y))
-    
+        for i in range(8):
+            for j in range(8):
+                self.scalar = self.gamestate.board[i][j]
+                self.screen.fill((self.scalar*255, self.scalar*255, self.scalar*255), (i*self.cellSize.x, j*self.cellSize.y, self.cellSize.x, self.cellSize.y))
+            
         #Shows black pawn sprite
         self.rect, self.sprite = self.p.getSprite("t.png")
 
