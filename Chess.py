@@ -42,6 +42,11 @@ class GameState():
     def update(self, piece, newPos):
         self.piece  = piece
         self.newPos = newPos
+        self.piecesOnBoard[int(self.piece.currPos.x)][int(self.piece.currPos.y)] = 0
+
+        self.piece.currPos = Vector2(newPos[0], newPos[1])
+
+        self.piecesOnBoard[int(self.piece.currPos.x)][int(self.piece.currPos.y)] = self.piece
 
 #Actual game logic
 class Chess():
@@ -52,9 +57,7 @@ class Chess():
 
         #Board
         self.cellSize = Vector2(64,64)
-
-
-        self.WhiteRect = (0,0, self.cellSize.x, self.cellSize.y)
+ 
 
         #Pieces textures
         self.p = Pawn(Vector2(0,0))
@@ -75,16 +78,23 @@ class Chess():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mousePos  = pygame.mouse.get_pos()
                 self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                
                 self.mousePos = self.mousePos.elementwise()//64
-
                 if self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)] != 0:
-                    print("Occupied")
+                    #self.isHolding = True
+                    self.piece = self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)]
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.mousePos  = pygame.mouse.get_pos()
+                self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
+                self.mousePos = self.mousePos.elementwise()//64
+                
+                self.gamestate.update(self.piece, self.mousePos)
+                print("lift off")
+
 
                 print(self.mousePos)
 
     def update(self):
-        self.gamestate.update(self.p, (0,0))
+        pass
 
     def render(self):
         self.screen.fill((0,0,0))
@@ -109,6 +119,7 @@ class Chess():
             self.s = pygame.transform.scale(self.s,(64,64))
 
             self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+
         for i in range(8):
             self.piece = self.gamestate.piecesOnBoard[7][i]
 
