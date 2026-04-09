@@ -14,6 +14,8 @@ class GameState():
     def __init__(self):
         #Sets up the board
         self.boardSize = Vector2(8, 8)
+
+        #Chess board, no pieces
         self.board = [
         [0,1,0,1,0,1,0,1],
         [1,0,1,0,1,0,1,0],
@@ -25,6 +27,7 @@ class GameState():
         [1,0,1,0,1,0,1,0],
         ]
 
+        #Location of the chess pieces
         self.piecesOnBoard = [
         [Rook(Vector2(0,0)),Knight(Vector2(1,0)),Bishop(Vector2(2,0)), Queen(Vector2(3,0)), King(Vector2(4,0)), Bishop(Vector2(5,0)),Knight(Vector2(6,0)),Rook(Vector2(7,0))],
         [0,0,0,0,0,0,0,0],
@@ -33,9 +36,10 @@ class GameState():
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [Rook(Vector2(7,7)),Knight(Vector2(1,7)),Bishop(Vector2(2,7)), King(Vector2(3,7)), Queen(Vector2(4,7)), Bishop(Vector2(5,7)),Knight(Vector2(6,7)),Rook(Vector2(7,7))]
+        [Rook(Vector2(7,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7), "w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7), "w")]
         ]
 
+        #Currently active pieces (Not taken)
         self.activeBlackPieces = []
         self.activeWhitePieces = []
 
@@ -55,13 +59,10 @@ class Chess():
 
         self.gamestate = GameState()
 
-        #Board
+        #Size of a square
         self.cellSize = Vector2(64,64)
- 
 
-        #Pieces textures
-        self.p = Pawn(Vector2(0,0))
-
+        #window and time initialization
         self.windowSize = self.gamestate.boardSize.elementwise()*self.cellSize
         self.screen     = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
         self.clock      = pygame.time.Clock()
@@ -69,12 +70,15 @@ class Chess():
 
     #TODO: Process mouse input and click
     def processInput(self):
+        #Quit input handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     self.running = False
+            
+            #Mouse input handling
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mousePos  = pygame.mouse.get_pos()
                 self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
@@ -88,7 +92,7 @@ class Chess():
                 self.mousePos = self.mousePos.elementwise()//64
                 
                 self.gamestate.update(self.piece, self.mousePos)
-                print("lift off")
+  
 
 
                 print(self.mousePos)
@@ -105,12 +109,8 @@ class Chess():
                 self.scalar = self.gamestate.board[i][j]
                 self.screen.fill((self.scalar*255, self.scalar*255, self.scalar*255), (i*self.cellSize.x, j*self.cellSize.y, self.cellSize.x, self.cellSize.y))
             
-        #Shows black pawn sprite
-        self.rect, self.sprite = self.p.getSprite("t.png")
-
-        self.s = pygame.image.load(self.sprite)
-        self.s = pygame.transform.scale(self.s,(64,64))
-
+        
+        #Renders pieces in first row
         for i in range(0,8):
             self.piece = self.gamestate.piecesOnBoard[0][i]
 
@@ -120,12 +120,14 @@ class Chess():
 
             self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
 
+        #Renders pieces in last row
         for i in range(8):
             if self.gamestate.piecesOnBoard[7][i] != 0:
                 self.piece = self.gamestate.piecesOnBoard[7][i]
 
                 
                 #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
+                #Use the active pieces array to solve this issue
                 self.rect, self.sprite = self.piece.getSprite("t.png")
                 self.s = pygame.image.load(self.sprite)
                 self.s = pygame.transform.scale(self.s,(64,64))
@@ -146,6 +148,7 @@ class Chess():
 
 
 #TODO: Implement layers 1st layer is the board, second layer are the piece sprites
+#Probably useless because only two layers: board and pieces
 class Layer():
     def __init__(self, ui, imageFile):
         self.ui = ui
