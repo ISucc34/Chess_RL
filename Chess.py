@@ -14,12 +14,22 @@ class GameState():
     def __init__(self):
         #Sets up the board
         self.boardSize = Vector2(8, 8)
-        self.board = []
+        self.board = [
+        [0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0],
+        [0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0],
+        [0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0],
+        [0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0],
+        ]
+
         self.activeBlackPieces = []
         self.activeWhitePieces = []
 
     def update(self, piece, newPos):
-        self.piece = piece
+        self.piece  = piece
         self.newPos = newPos
 
 #Actual game logic
@@ -32,13 +42,16 @@ class Chess():
         #Board
         self.cellSize = Vector2(64,64)
 
+
+        self.WhiteRect = (0,0, self.cellSize.x, self.cellSize.y)
+
         #Pieces textures
         self.p = Pawn(Vector2(0,0))
 
         self.windowSize = self.gamestate.boardSize.elementwise()*self.cellSize
-        self.screen = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
-        self.clock = pygame.time.Clock()
-        self.running = True
+        self.screen     = pygame.display.set_mode((int(self.windowSize.x), int(self.windowSize.y)))
+        self.clock      = pygame.time.Clock()
+        self.running    = True
 
     #TODO: Process mouse input and click
     def processInput(self):
@@ -49,21 +62,24 @@ class Chess():
                 if event.key == pygame.K_q:
                     self.running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.mousePos = pygame.mouse.get_pos()
-                self.mousePos = Vector2(self.mousePos[0], self.mousePos[1])
+                self.mousePos  = pygame.mouse.get_pos()
+                self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
                 self.p.currPos = self.mousePos.elementwise()//64
                 print(self.p.currPos)
+
     def update(self):
         self.gamestate.update(self.p, (0,0))
 
     def render(self):
         self.screen.fill((0,0,0))
+        self.screen.fill((255,255,255),self.WhiteRect)
+        self.screen.fill((255,255,255), (0+self.cellSize.x,0+self.cellSize.y, self.cellSize.x, self.cellSize.y))
     
         #Shows black pawn sprite
         self.rect, self.sprite = self.p.getSprite("t.png")
+
         self.s = pygame.image.load(self.sprite)
         self.s = pygame.transform.scale(self.s,(64,64))
-
 
         self.screen.blit(self.s, self.p.currPos.elementwise()*self.cellSize, self.rect)
 
@@ -80,10 +96,16 @@ class Chess():
 
 
 #TODO: Implement layers 1st layer is the board, second layer are the piece sprites
-def Layer():
-    def __init__(self, imageFile):
-        self.imageFile = imageFile
-    
+class Layer():
+    def __init__(self, ui, imageFile):
+        self.ui = ui
+        self.texture = pygame.image.load(imageFile)
+    def renderTile(self, window, pos, tile):
+        spritePos = pos.elementwise()*self.ui.cellSize
+        
+        
+        texturePos  = tile.elementwise()*self.ui.cellsize
+        textureRect = pygame.Rect(int(texturePos.x), int(texturePos.y), self.ui.cellWidth, self.ui.cellHeight)
 
 
 
