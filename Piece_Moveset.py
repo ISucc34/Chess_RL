@@ -3,7 +3,7 @@ import pygame
 
 #Abstract Class template
 class Piece():
-    def __init__(self, currPos, color = "b"):
+    def __init__(self, currPos, color):
         self.currPos = currPos #Pos in terms of array index
         self.value = 0
         self.color = color
@@ -16,8 +16,8 @@ class Piece():
   
 
 class Pawn(Piece):
-    def __init__(self, currPos):
-        super().__init__(currPos = currPos)
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
         self.value = 1
         if self.color == "w":
             pass #Use the white sprite if not use the black one
@@ -30,8 +30,8 @@ class Pawn(Piece):
         return self.currPos
         
 class Rook(Piece):
-    def __init__(self, currPos):
-        super().__init__(currPos)
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
         self.value = 5
         if self.color == "w":
             pass #Use the white sprite if not use the black one
@@ -39,8 +39,8 @@ class Rook(Piece):
         pass
         
 class Bishop(Piece):
-    def __init__(self, pos):
-        super().__init__(pos)
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
         self.value = 3
         if self.color == "w":
             pass #Use the white sprite if not use the black one
@@ -48,19 +48,19 @@ class Bishop(Piece):
         pos
 
 class Knight(Piece):
-    def __init__(self, pos):
-            super().__init__(pos)
-            self.value = 3
-            if self.color == "w":
-                pass #Use the white sprite if not use the black one
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
+        self.value = 3
+        if self.color == "w":
+            pass #Use the white sprite if not use the black one
     def move(pos):
         pos
 
 
 
 class Queen(Piece):
-    def __init__(self, pos):
-        super().__init__(pos)
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
         self.value = 9
         if self.color == "w":
             pass #Use the white sprite if not use the black one
@@ -69,8 +69,8 @@ class Queen(Piece):
 
 
 class King(Piece):
-    def __init__(self, pos):
-        super().__init__(pos)
+    def __init__(self, currPos, color = "b"):
+        super().__init__(currPos = currPos, color=color)
         self.value = 0
         if self.color == "w":
             pass #Use the white sprite if not use the black one

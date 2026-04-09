@@ -27,6 +27,8 @@ class GameState():
         [1,0,1,0,1,0,1,0],
         ]
 
+        #Initialize pieces
+
         #Location of the chess pieces
         self.piecesOnBoard = [
         [Rook(Vector2(0,0)),Knight(Vector2(1,0)),Bishop(Vector2(2,0)), Queen(Vector2(3,0)), King(Vector2(4,0)), Bishop(Vector2(5,0)),Knight(Vector2(6,0)),Rook(Vector2(7,0))],
@@ -39,9 +41,26 @@ class GameState():
         [Rook(Vector2(7,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7), "w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7), "w")]
         ]
 
+        for i in range(8):
+            self.piecesOnBoard[1][i] = Pawn(Vector2(1,i))
+            self.piecesOnBoard[6][i] = Pawn(Vector2(6,i), "w")
+
+
         #Currently active pieces (Not taken)
         self.activeBlackPieces = []
         self.activeWhitePieces = []
+
+        
+        for j in range(8):
+            #Get pawns first
+            self.activeBlackPieces.append(self.piecesOnBoard[1][j])
+            self.activeBlackPieces.append(self.piecesOnBoard[0][j])
+
+            self.activeWhitePieces.append(self.piecesOnBoard[6][j])
+            self.activeWhitePieces.append(self.piecesOnBoard[7][j])
+
+
+
 
     def update(self, piece, newPos):
         self.piece  = piece
@@ -111,28 +130,32 @@ class Chess():
             
         
         #Renders pieces in first row
-        for i in range(0,8):
-            self.piece = self.gamestate.piecesOnBoard[0][i]
+        for i in self.gamestate.activeBlackPieces:
+            
+            self.renderPiece = i
 
-            self.rect, self.sprite = self.piece.getSprite("t.png")
+            
+            #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
+            #Use the active pieces array to solve this issue
+            self.rect, self.sprite = self.renderPiece.getSprite("t.png")
             self.s = pygame.image.load(self.sprite)
             self.s = pygame.transform.scale(self.s,(64,64))
 
-            self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+            self.screen.blit(self.s, self.renderPiece.currPos.elementwise()*self.cellSize, self.rect)
 
         #Renders pieces in last row
-        for i in range(8):
-            if self.gamestate.piecesOnBoard[7][i] != 0:
-                self.piece = self.gamestate.piecesOnBoard[7][i]
+        for i in self.gamestate.activeWhitePieces:
+            
+            self.renderPiece = i
 
-                
-                #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
-                #Use the active pieces array to solve this issue
-                self.rect, self.sprite = self.piece.getSprite("t.png")
-                self.s = pygame.image.load(self.sprite)
-                self.s = pygame.transform.scale(self.s,(64,64))
+            
+            #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
+            #Use the active pieces array to solve this issue
+            self.rect, self.sprite = self.renderPiece.getSprite("t.png")
+            self.s = pygame.image.load(self.sprite)
+            self.s = pygame.transform.scale(self.s,(64,64))
 
-                self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+            self.screen.blit(self.s, self.renderPiece.currPos.elementwise()*self.cellSize, self.rect)
 
 
         pygame.display.flip()
