@@ -121,13 +121,16 @@ class Chess():
             self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
 
         for i in range(8):
-            self.piece = self.gamestate.piecesOnBoard[7][i]
+            if self.gamestate.piecesOnBoard[7][i] != 0:
+                self.piece = self.gamestate.piecesOnBoard[7][i]
 
-            self.rect, self.sprite = self.piece.getSprite("t.png")
-            self.s = pygame.image.load(self.sprite)
-            self.s = pygame.transform.scale(self.s,(64,64))
+                
+                #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
+                self.rect, self.sprite = self.piece.getSprite("t.png")
+                self.s = pygame.image.load(self.sprite)
+                self.s = pygame.transform.scale(self.s,(64,64))
 
-            self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+                self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
 
 
         pygame.display.flip()
