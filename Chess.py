@@ -25,6 +25,17 @@ class GameState():
         [1,0,1,0,1,0,1,0],
         ]
 
+        self.piecesOnBoard = [
+        [Rook(Vector2(0,0)),Knight(Vector2(1,0)),Bishop(Vector2(2,0)), Queen(Vector2(3,0)), King(Vector2(4,0)), Bishop(Vector2(5,0)),Knight(Vector2(6,0)),Rook(Vector2(7,0))],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [Rook(Vector2(7,7)),Knight(Vector2(1,7)),Bishop(Vector2(2,7)), King(Vector2(3,7)), Queen(Vector2(4,7)), Bishop(Vector2(5,7)),Knight(Vector2(6,7)),Rook(Vector2(7,7))]
+        ]
+
         self.activeBlackPieces = []
         self.activeWhitePieces = []
 
@@ -64,14 +75,21 @@ class Chess():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mousePos  = pygame.mouse.get_pos()
                 self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                self.p.currPos = self.mousePos.elementwise()//64
-                print(self.p.currPos)
+                
+                self.mousePos = self.mousePos.elementwise()//64
+
+                if self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)] != 0:
+                    print("Occupied")
+
+                print(self.mousePos)
 
     def update(self):
         self.gamestate.update(self.p, (0,0))
 
     def render(self):
         self.screen.fill((0,0,0))
+
+        #renders the white squares
         for i in range(8):
             for j in range(8):
                 self.scalar = self.gamestate.board[i][j]
@@ -83,7 +101,23 @@ class Chess():
         self.s = pygame.image.load(self.sprite)
         self.s = pygame.transform.scale(self.s,(64,64))
 
-        self.screen.blit(self.s, self.p.currPos.elementwise()*self.cellSize, self.rect)
+        for i in range(0,8):
+            self.piece = self.gamestate.piecesOnBoard[0][i]
+
+            self.rect, self.sprite = self.piece.getSprite("t.png")
+            self.s = pygame.image.load(self.sprite)
+            self.s = pygame.transform.scale(self.s,(64,64))
+
+            self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+        for i in range(8):
+            self.piece = self.gamestate.piecesOnBoard[7][i]
+
+            self.rect, self.sprite = self.piece.getSprite("t.png")
+            self.s = pygame.image.load(self.sprite)
+            self.s = pygame.transform.scale(self.s,(64,64))
+
+            self.screen.blit(self.s, self.piece.currPos.elementwise()*self.cellSize, self.rect)
+
 
         pygame.display.flip()
         pygame.display.update()
