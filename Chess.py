@@ -38,9 +38,10 @@ class GameState():
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [Rook(Vector2(7,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7),"w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7),"w")]
+        [Rook(Vector2(0,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7),"w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7),"w")]
         ]
 
+        #Set up pawns
         for i in range(8):
             self.piecesOnBoard[1][i] = Pawn(Vector2(i,1), "b")
             self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "w")
@@ -60,11 +61,12 @@ class GameState():
             self.activeWhitePieces.append(self.piecesOnBoard[7][j])
 
 
-
-
+    #Updates pieces on the board that were moved
     def update(self, piece, newPos):
         self.piece  = piece
         self.newPos = newPos
+
+        
         self.piecesOnBoard[int(self.piece.currPos.x)][int(self.piece.currPos.y)] = 0
 
         self.piece.currPos = Vector2(newPos[0], newPos[1])
@@ -87,7 +89,9 @@ class Chess():
         self.clock      = pygame.time.Clock()
         self.running    = True
 
-    #TODO: Process mouse input and click
+        self.isHoldingPiece = False #Is a piece selected
+        self.piece          = 0 #Current piece the player is holding
+
     def processInput(self):
         #Quit input handling
         for event in pygame.event.get():
@@ -99,22 +103,35 @@ class Chess():
             
             #Mouse input handling
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.mousePos  = pygame.mouse.get_pos()
-                self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                self.mousePos = self.mousePos.elementwise()//64
-                if self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)] != 0:
-                    #self.isHolding = True
-                    self.piece = self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)]
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.mousePos  = pygame.mouse.get_pos()
-                self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                self.mousePos = self.mousePos.elementwise()//64
-                
-                self.gamestate.update(self.piece, self.mousePos)
-  
+                if self.isHoldingPiece:
+                    if self.piece != 0:
+                        self.mousePos  = pygame.mouse.get_pos()
+                        self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
+                        self.mousePos = self.mousePos.elementwise()//64
+                        
+                        self.gamestate.update(self.piece, self.mousePos)
+                        self.piece = 0 
+                        self.isHoldingPiece = False
+                else:
+                    self.mousePos  = pygame.mouse.get_pos()
+                    self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
+                    self.mousePos = self.mousePos.elementwise()//64 #Caculates which square is selected
+                    if self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)] != 0: #Checks if selected square is occupied
+                        self.isHoldingPiece = True
+                        self.piece = self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)]
 
 
-                print(self.mousePos)
+        
+            """if event.type == pygame.MOUSEBUTTONUP and self.isHoldingPiece:
+                if self.piece != 0:
+                    self.mousePos  = pygame.mouse.get_pos()
+                    self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
+                    self.mousePos = self.mousePos.elementwise()//64
+                    
+                    self.gamestate.update(self.piece, self.mousePos)
+                    self.piece = 0 
+                    self.isHoldingPiece = False"""
+    
 
     def update(self):
         pass
@@ -126,15 +143,14 @@ class Chess():
         for i in range(8):
             for j in range(8):
                 self.scalar = self.gamestate.board[i][j]
-                self.screen.fill((self.scalar*255, self.scalar*255, self.scalar*255), (i*self.cellSize.x, j*self.cellSize.y, self.cellSize.x, self.cellSize.y))
+                self.screen.fill((self.scalar*200, self.scalar*200, self.scalar*200), (i*self.cellSize.x, j*self.cellSize.y, self.cellSize.x, self.cellSize.y))
             
         
-        #Renders pieces in first row
+        #Renders active black pieces 
         for i in self.gamestate.activeBlackPieces:
             
             self.renderPiece = i
 
-            
             #When a piece is moved, it is no longer in the first row, and since the loop only has the first row it cant render 0
             #Use the active pieces array to solve this issue
             self.rect, self.sprite = self.renderPiece.getSprite()
@@ -143,7 +159,7 @@ class Chess():
 
             self.screen.blit(self.s, self.renderPiece.currPos.elementwise()*self.cellSize, self.rect)
 
-        #Renders pieces in last row
+        #Renders active white pieces
         for i in self.gamestate.activeWhitePieces:
             
             self.renderPiece = i

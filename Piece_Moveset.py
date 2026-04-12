@@ -11,9 +11,9 @@ class Piece():
         self.currPos = newPos
     def getSprite(self):
         self.rect = (0,0,64,64)
-        self.sprite = 0
-        self.temp = pygame.image.load(self.sprite)
-        return self.rect, self.temp
+        self.sprite
+        #self.temp = pygame.image.load(self.sprite)
+        return self.rect, self.sprite
   
 
 class Pawn(Piece):
@@ -21,9 +21,9 @@ class Pawn(Piece):
         super().__init__(currPos = currPos, color= color)
         self.value = 1
         if self.color == "w":
-            self.sprite = "sprites/WhitePawn.png"
+            self.sprite = pygame.image.load("sprites/WhitePawn.png")
         else: 
-            self.sprite = "sprites/BlackPawn.png"
+            self.sprite = pygame.image.load("sprites/BlackPawn.png")
     def moveSet(self, newpos):
         self.currPos = newpos
         self.currPos[1] += 1 #move up the column
@@ -37,9 +37,9 @@ class Rook(Piece):
         super().__init__(currPos = currPos, color = color)
         self.value = 5
         if self.color == "w":
-            self.sprite = "sprites/WhiteRook.png"
+            self.sprite = pygame.image.load("sprites/WhiteRook.png")
         else: 
-            self.sprite = "sprites/BlackRook.png"
+            self.sprite = pygame.image.load("sprites/BlackRook.png")
     def moveSet(self, currPos):
         pass
         
@@ -48,9 +48,9 @@ class Bishop(Piece):
         super().__init__(currPos = currPos, color= color)
         self.value = 3
         if self.color == "w":
-            self.sprite = "sprites/WhiteBishop.png"
+            self.sprite = pygame.image.load("sprites/WhiteBishop.png")
         else: 
-            self.sprite = "sprites/BlackBishop.png"
+            self.sprite = pygame.image.load("sprites/BlackBishop.png")
     def move(pos):
         pos
 
@@ -59,9 +59,9 @@ class Knight(Piece):
         super().__init__(currPos = currPos, color= color)
         self.value = 3
         if self.color == "w":
-            self.sprite = "sprites/WhiteKnight.png"
+            self.sprite = pygame.image.load("sprites/WhiteKnight.png")
         else: 
-            self.sprite = "sprites/BlackKnight.png"
+            self.sprite = pygame.image.load("sprites/BlackKnight.png")
     def move(pos):
         pos
 
@@ -72,9 +72,9 @@ class Queen(Piece):
         super().__init__(currPos = currPos, color= color)
         self.value = 9
         if self.color == "w":
-            self.sprite = "sprites/WhiteQueen.png"
+            self.sprite = pygame.image.load("sprites/WhiteQueen.png")
         else: 
-            self.sprite = "sprites/BlackQueen.png"
+            self.sprite = pygame.image.load("sprites/BlackQueen.png")
     def move(pos):
         pos
 
@@ -84,8 +84,8 @@ class King(Piece):
         super().__init__(currPos = currPos, color = color)
         self.value = 0
         if self.color == "w":
-            self.sprite = "sprites/WhiteKing.png"
+            self.sprite = pygame.image.load("sprites/WhiteKing.png")
         else: 
-            self.sprite = "sprites/BlackKing.png"
+            self.sprite = pygame.image.load("sprites/BlackKing.png")
     def move(pos):
         pos
