@@ -31,20 +31,38 @@ class GameState():
 
         #Location of the chess pieces
         self.piecesOnBoard = [
-        [Rook(Vector2(0,0), "b"),Knight(Vector2(1,0), "b"),Bishop(Vector2(2,0), "b"), Queen(Vector2(3,0), "b"), King(Vector2(4,0), "b"), Bishop(Vector2(5,0), "b"),Knight(Vector2(6,0), "b"),Rook(Vector2(7,0), "b")],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [Rook(Vector2(0,7), "w"),Knight(Vector2(1,7), "w"),Bishop(Vector2(2,7), "w"), King(Vector2(3,7), "w"), Queen(Vector2(4,7),"w"), Bishop(Vector2(5,7), "w"),Knight(Vector2(6,7), "w"),Rook(Vector2(7,7),"w")]
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0]
         ]
 
         #Set up pawns
         for i in range(8):
-            self.piecesOnBoard[1][i] = Pawn(Vector2(i,1), "b")
-            self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "w")
+            self.piecesOnBoard[1][i] = Pawn(Vector2(i,1), "Black")
+            self.piecesOnBoard[0][i] = Rook(Vector2(0,0), "Black")
+            self.piecesOnBoard[0][i] = Knight(Vector2(1,0), "Black")
+            self.piecesOnBoard[0][i] = Bishop(Vector2(2,0), "Black") 
+            self.piecesOnBoard[0][i] = Queen(Vector2(3,0), "Black")
+            self.piecesOnBoard[0][i] = King(Vector2(4,0), "Black")
+            self.piecesOnBoard[0][i] = Bishop(Vector2(5,0), "Black")
+            self.piecesOnBoard[0][i] = Knight(Vector2(6,0), "Black")
+            self.piecesOnBoard[0][i] = Rook(Vector2(7,0), "Black")
+
+
+            self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "White")
+            self.piecesOnBoard[7][i] = Rook(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = Knight(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = Bishop(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = King(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = Queen(Vector2(i,7),"White") 
+            self.piecesOnBoard[7][i] = Bishop(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = Knight(Vector2(i,7), "White")
+            self.piecesOnBoard[7][i] = Rook(Vector2(i,7),"White")
 
 
         #Currently active pieces (Not taken)
@@ -181,30 +199,3 @@ class Chess():
             self.render()
             self.clock.tick(60) #Limit to 60 fps
 
-
-#TODO: Implement layers 1st layer is the board, second layer are the piece sprites
-#Probably useless because only two layers: board and pieces
-class Layer():
-    def __init__(self, ui, imageFile):
-        self.ui = ui
-        self.texture = pygame.image.load(imageFile)
-    def renderTile(self, window, pos, tile):
-        spritePos = pos.elementwise()*self.ui.cellSize
-        
-        
-        texturePos  = tile.elementwise()*self.ui.cellsize
-        textureRect = pygame.Rect(int(texturePos.x), int(texturePos.y), self.ui.cellWidth, self.ui.cellHeight)
-
-
-
-#Take pos(x,y), x*width of the square, and y*height of square to get position of a piece
-
-
-
-
-
-#Good naming convention on triple T sahur
-if __name__ == "__main__":
-    game = Chess()
-    game.run()
-    pygame.quit()
