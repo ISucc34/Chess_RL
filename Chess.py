@@ -174,8 +174,6 @@ class Chess():
                 
                 self.mousePos = 0
 
-        
-
 
     def update(self):
         pass
@@ -225,17 +223,49 @@ class Chess():
             self.render()
             self.clock.tick(60) #Limit to 60 fps
 
+class ChessEnv():
 
-def ChessEnv():
+    def __init__(self, maxMoves = 300):
+        self.maxMoves = maxMoves
+        self.reset()
 
-    def reset():
+    def reset(self):
+        self.gamestate = GameState()
+        self.currentPlayer = "White"
+        self.moveCount = 0
+        self.done = False
+        return self.observe()
+
+    def step(self, action):
+        if self.done:
+            #Returns observatio, reward, done, and info
+            return self.observe(), 0.0, True, {"reason" : "epidsode done"}
+        
+        legal = self.legal_actions()
+        #Punish for bad behavior
+        if action not in legal:
+            self.done = True
+            return self.observe(), -1.0, True, {"reason" : "Illegal move"}
+
+        (from_x, from_y), (to_x, to_y) = action
+        piece  = self.gamestate.piecesOnBoard[from_y][from_x]
+        target = self.gamestate.piecesOnBoard[to_y][to_x]
+
+        moved = self.gamestate.update(piece, target)
+        self.moveCount += 1
+    
+    def legal_actions(self):
+        actions = []
+        for y in range(8):
+            for x in range(8):
+                piece = self.gamestate.piecesOnBoard[y][x]
+                if piece == 0 or piece.color != self.currentPlayer:
+                    continue
+                for to_x, to_y in self.legal_targets(piece, x ,y):
+                    actions.append(((x,y),(to_x,to_y)))
+        return actions
+
+
+    def observe(self):
         pass
 
-    def step(action):
-        pass
-    def legal_actions():
-        pass
-    def observe():
-        pass
-
-    return
