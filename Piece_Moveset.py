@@ -22,13 +22,19 @@ class Pawn(Piece):
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Pawn.png")
 
-    def moveSet(self, newpos):
-        self.currPos = newpos
-        self.currPos[1] += 1 #move up the column
-    def setPos(self, newPos):
-        self.currPos = newPos
-    def getPos(self):
-        return self.currPos
+    def validateMove(self, newpos):
+        if self.color == "White":
+            if int(newpos.y) == int(self.currPos.y - 1):
+                self.currPos.y -= 1
+                return True
+            else:
+                return False
+        elif self.color == "Black":
+            if int(newpos.y) == int(self.currPos.y + 1):
+                self.currPos.y += 1
+                return True
+            else:
+                return False
         
 class Rook(Piece):
     def __init__(self, currPos, color):

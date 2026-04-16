@@ -106,6 +106,10 @@ class GameState():
         newRow = int(self.newPos.y)
         newCol = int(self.newPos.x)
 
+        if not self.piece.validateMove(newPos):
+            return False
+            
+
         if not self.in_bounds(self.newPos):
             return False
 
@@ -113,6 +117,7 @@ class GameState():
             return False
 
         targetPiece = self.piecesOnBoard[newRow][newCol]
+
         if targetPiece != 0 and targetPiece.color == self.piece.color:
             return False
 
