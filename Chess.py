@@ -44,25 +44,26 @@ class GameState():
         #Set up pawns
         for i in range(8):
             self.piecesOnBoard[1][i] = Pawn(Vector2(i,1), "Black")
-            self.piecesOnBoard[0][0] = Rook(Vector2(0,0), "Black")
-            self.piecesOnBoard[0][1] = Knight(Vector2(1,0), "Black")
-            self.piecesOnBoard[0][2] = Bishop(Vector2(2,0), "Black") 
-            self.piecesOnBoard[0][3] = Queen(Vector2(3,0), "Black")
-            self.piecesOnBoard[0][4] = King(Vector2(4,0), "Black")
-            self.piecesOnBoard[0][5] = Bishop(Vector2(5,0), "Black")
-            self.piecesOnBoard[0][6] = Knight(Vector2(6,0), "Black")
-            self.piecesOnBoard[0][7] = Rook(Vector2(7,0), "Black")
-
 
             self.piecesOnBoard[6][i] = Pawn(Vector2(i,6), "White")
-            self.piecesOnBoard[7][0] = Rook(Vector2(0,7), "White")
-            self.piecesOnBoard[7][1] = Knight(Vector2(1,7), "White")
-            self.piecesOnBoard[7][2] = Bishop(Vector2(2,7), "White")
-            self.piecesOnBoard[7][3] = King(Vector2(3,7), "White")
-            self.piecesOnBoard[7][4] = Queen(Vector2(4,7),"White") 
-            self.piecesOnBoard[7][5] = Bishop(Vector2(5,7), "White")
-            self.piecesOnBoard[7][6] = Knight(Vector2(6,7), "White")
-            self.piecesOnBoard[7][7] = Rook(Vector2(7,7),"White")
+
+        self.piecesOnBoard[0][0] = Rook(Vector2(0,0), "Black")
+        self.piecesOnBoard[0][1] = Knight(Vector2(1,0), "Black")
+        self.piecesOnBoard[0][2] = Bishop(Vector2(2,0), "Black") 
+        self.piecesOnBoard[0][3] = Queen(Vector2(3,0), "Black")
+        self.piecesOnBoard[0][4] = King(Vector2(4,0), "Black")
+        self.piecesOnBoard[0][5] = Bishop(Vector2(5,0), "Black")
+        self.piecesOnBoard[0][6] = Knight(Vector2(6,0), "Black")
+        self.piecesOnBoard[0][7] = Rook(Vector2(7,0), "Black")
+
+        self.piecesOnBoard[7][0] = Rook(Vector2(0,7), "White")
+        self.piecesOnBoard[7][1] = Knight(Vector2(1,7), "White")
+        self.piecesOnBoard[7][2] = Bishop(Vector2(2,7), "White")
+        self.piecesOnBoard[7][3] = King(Vector2(3,7), "White")
+        self.piecesOnBoard[7][4] = Queen(Vector2(4,7),"White") 
+        self.piecesOnBoard[7][5] = Bishop(Vector2(5,7), "White")
+        self.piecesOnBoard[7][6] = Knight(Vector2(6,7), "White")
+        self.piecesOnBoard[7][7] = Rook(Vector2(7,7),"White")
 
 
         #Currently active pieces (Not taken)
@@ -78,18 +79,54 @@ class GameState():
             self.activeWhitePieces.append(self.piecesOnBoard[6][j])
             self.activeWhitePieces.append(self.piecesOnBoard[7][j])
 
+    def remove_active_piece(self, piece):
+        if piece == 0:
+            return
+
+        if piece.color == "Black":
+            if piece in self.activeBlackPieces:
+                self.activeBlackPieces.remove(piece)
+        elif piece.color == "White":
+            if piece in self.activeWhitePieces:
+                self.activeWhitePieces.remove(piece)
+
+
+    def in_bounds(self, pos):
+        return 0 <= int(pos.x) < 8 and 0 <= int(pos.y) < 8
+
 
     #Updates pieces on the board that were moved
     def update(self, piece, newPos):
         self.piece  = piece
-        self.newPos = newPos
+        self.newPos = Vector2(int(newPos[0]), int(newPos[1]))
+
+        oldPos = Vector2(int(self.piece.currPos.x), int(self.piece.currPos.y))
+        oldRow = int(oldPos.y)
+        oldCol = int(oldPos.x)
+        newRow = int(self.newPos.y)
+        newCol = int(self.newPos.x)
+
+        if not self.in_bounds(self.newPos):
+            return False
+
+        if oldRow == newRow and oldCol == newCol:
+            return False
+
+        targetPiece = self.piecesOnBoard[newRow][newCol]
+        if targetPiece != 0 and targetPiece.color == self.piece.color:
+            return False
+
+        if targetPiece != 0:
+            self.remove_active_piece(targetPiece)
+
+        self.piecesOnBoard[oldRow][oldCol] = 0
+        self.piecesOnBoard[newRow][newCol] = self.piece
+        self.piece.currPos = self.newPos
+
+        return True
 
         
-        self.piecesOnBoard[int(self.piece.currPos.x)][int(self.piece.currPos.y)] = 0
 
-        self.piece.currPos = Vector2(newPos[0], newPos[1])
-
-        self.piecesOnBoard[int(self.piece.currPos.x)][int(self.piece.currPos.y)] = self.piece
 
 #Actual game logic
 class Chess():
@@ -121,35 +158,24 @@ class Chess():
             
             #Mouse input handling
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.isHoldingPiece:
-                    if self.piece != 0:
-                        self.mousePos  = pygame.mouse.get_pos()
-                        self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                        self.mousePos = self.mousePos.elementwise()//64
-                        
-                        self.gamestate.update(self.piece, self.mousePos)
+                self.mousePos  = pygame.mouse.get_pos()
+                self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
+                self.mousePos = self.mousePos.elementwise()//64 #Caculates which square is selected
+                    
+                if self.isHoldingPiece and self.piece != 0:
+                    moved = self.gamestate.update(self.piece, self.mousePos)
+                    if moved:
                         self.piece = 0 
                         self.isHoldingPiece = False
                 else:
-                    self.mousePos  = pygame.mouse.get_pos()
-                    self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                    self.mousePos = self.mousePos.elementwise()//64 #Caculates which square is selected
                     if self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)] != 0: #Checks if selected square is occupied
                         self.isHoldingPiece = True
                         self.piece = self.gamestate.piecesOnBoard[int(self.mousePos.y)][int(self.mousePos.x)]
-
+                
+                self.mousePos = 0
 
         
-            """if event.type == pygame.MOUSEBUTTONUP and self.isHoldingPiece:
-                if self.piece != 0:
-                    self.mousePos  = pygame.mouse.get_pos()
-                    self.mousePos  = Vector2(self.mousePos[0], self.mousePos[1])
-                    self.mousePos = self.mousePos.elementwise()//64
-                    
-                    self.gamestate.update(self.piece, self.mousePos)
-                    self.piece = 0 
-                    self.isHoldingPiece = False"""
-    
+
 
     def update(self):
         pass
