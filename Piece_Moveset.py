@@ -1,4 +1,3 @@
-from Chess import *
 import pygame
 
 #Abstract Class template

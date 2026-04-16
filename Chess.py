@@ -199,3 +199,17 @@ class Chess():
             self.render()
             self.clock.tick(60) #Limit to 60 fps
 
+
+def ChessEnv():
+
+    def reset():
+        pass
+
+    def step(action):
+        pass
+    def legal_actions():
+        pass
+    def observe():
+        pass
+
+    return
