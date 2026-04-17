@@ -21,6 +21,7 @@ class Pawn(Piece):
         self.value = 1
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Pawn.png")
+        self.firstMove = True #Implement two space movement later
 
     def validateMove(self, newpos):
         if self.color == "White":
@@ -42,8 +43,13 @@ class Rook(Piece):
         self.value = 5
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Rook.png")
-    def moveSet(self, currPos):
-        pass
+    def validateMove(self, newPos):
+        if newPos.x == self.currPos.x:
+            self.currPos = newPos
+        elif newPos.y == self.currPos.y:
+            self.currPos = newPos
+
+
         
 class Bishop(Piece):
     def __init__(self, currPos, color):
@@ -51,8 +57,8 @@ class Bishop(Piece):
         self.value = 3
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Bishop.png")
-    def move(pos):
-        pos
+    def validateMove(self, newPos):
+        pass
 
 class Knight(Piece):
     def __init__(self, currPos, color):
