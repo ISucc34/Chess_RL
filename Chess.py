@@ -105,10 +105,7 @@ class GameState():
         oldCol = int(oldPos.x)
         newRow = int(self.newPos.y)
         newCol = int(self.newPos.x)
-
-        if not self.piece.validateMove(newPos):
-            return False
-            
+          
 
         if not self.in_bounds(self.newPos):
             return False
@@ -120,6 +117,9 @@ class GameState():
 
         if targetPiece != 0 and targetPiece.color == self.piece.color:
             return False
+        
+        if self.newPos not in self.piece.validMoves(self.piecesOnBoard):
+            return False
 
         if targetPiece != 0:
             self.remove_active_piece(targetPiece)
@@ -129,8 +129,6 @@ class GameState():
         self.piece.currPos = self.newPos
 
         return True
-
-        
 
 
 #Actual game logic
@@ -228,6 +226,8 @@ class Chess():
             self.render()
             self.clock.tick(60) #Limit to 60 fps
 
+
+#Chess env for agent to train in
 class ChessEnv():
 
     def __init__(self, maxMoves = 300):
@@ -258,15 +258,25 @@ class ChessEnv():
 
         moved = self.gamestate.update(piece, target)
         self.moveCount += 1
+
+
+    def legal_targets(self, piece, x, y):
+        legalTargets = []
+        return legalTargets
     
     def legal_actions(self):
         actions = []
+
+        #If move is valid, add to actions
+
         for y in range(8):
             for x in range(8):
                 piece = self.gamestate.piecesOnBoard[y][x]
                 if piece == 0 or piece.color != self.currentPlayer:
                     continue
+                
                 for to_x, to_y in self.legal_targets(piece, x ,y):
+
                     actions.append(((x,y),(to_x,to_y)))
         return actions
 

@@ -23,19 +23,16 @@ class Pawn(Piece):
         self.sprite = pygame.image.load(f"sprites/{color}Pawn.png")
         self.firstMove = True #Implement two space movement later
 
-    def validateMove(self, newpos):
+    def validMoves(self, piecesOnBoard):
+        moves = []
+        
         if self.color == "White":
-            if int(newpos.y) == int(self.currPos.y - 1):
-                self.currPos.y -= 1
-                return True
-            else:
-                return False
-        elif self.color == "Black":
-            if int(newpos.y) == int(self.currPos.y + 1):
-                self.currPos.y += 1
-                return True
-            else:
-                return False
+            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-1))
+        elif self.color == 'Black':
+            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+1))
+        return moves
+
+  
         
 class Rook(Piece):
     def __init__(self, currPos, color):
@@ -43,11 +40,25 @@ class Rook(Piece):
         self.value = 5
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Rook.png")
-    def validateMove(self, newPos):
-        if newPos.x == self.currPos.x:
-            self.currPos = newPos
-        elif newPos.y == self.currPos.y:
-            self.currPos = newPos
+    def validMoves(self, piecesOnBoard):
+        moves = []
+
+        Xblocked = False
+        Yblocked = False
+        
+        if self.color == "White":
+            for i in range(8):
+                #Adds the square onto the list of valid moves
+                if Xblocked == False:
+                    moves.append([0 + i, self.currPos.x]) 
+                if Yblocked == False:
+                    moves.append([self.currPos.y, 0+i])
+                    # TODO: Add gamestate, if the row is swuare has a piece, this column is blcoked 
+        elif self.color == 'Black':
+            moves.append([0 + i, self.x]) 
+            moves.append([self.y, 0+i])
+        return moves
+       
 
 
         
@@ -89,5 +100,6 @@ class King(Piece):
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}King.png")
 
-    def move(pos):
-        pos
+    def validateMove(self, newPos):
+        pass
+        
