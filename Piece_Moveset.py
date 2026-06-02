@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 #Abstract Class template
 class Piece():
@@ -42,21 +43,33 @@ class Rook(Piece):
         self.sprite = pygame.image.load(f"sprites/{color}Rook.png")
     def validMoves(self, piecesOnBoard):
         moves = []
-
-        Xblocked = False
-        Yblocked = False
         
+        row = piecesOnBoard[self.y]
+
+        column = piecesOnBoard[:][self.x]
+
+        blocked = False
+
+        while not blocked:
+            return
+        #Extract only row and column from board
+        #Start at the index where the rook starts
+        #loop through both arrays for columns and row
+        #if its empty add it to the valid moves
+        #if its an enemy add it then stop
+        #else if its an ally stop 
+
+     
+        xLower = 0
+        xHigher = 7
+
+        yLower = 0
+        yHighter = 7
+
         if self.color == "White":
-            for i in range(8):
-                #Adds the square onto the list of valid moves
-                if Xblocked == False:
-                    moves.append([0 + i, self.currPos.x]) 
-                if Yblocked == False:
-                    moves.append([self.currPos.y, 0+i])
-                    # TODO: Add gamestate, if the row is swuare has a piece, this column is blcoked 
+            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-1))
         elif self.color == 'Black':
-            moves.append([0 + i, self.x]) 
-            moves.append([self.y, 0+i])
+            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+1))
         return moves
        
 
