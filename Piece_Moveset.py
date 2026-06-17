@@ -34,6 +34,7 @@ class Pawn(Piece):
             moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-1))
         elif self.color == 'Black':
             moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+1))
+
         return moves
 
   
@@ -44,77 +45,49 @@ class Rook(Piece):
         self.value = 5
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Rook.png")
+        
     def validMoves(self, piecesOnBoard):
         moves = []
+
+        left  = int(self.currPos.x) +1
         
-        row = piecesOnBoard[int(self.currPos.y)]
 
-        column = piecesOnBoard[:][int(self.currPos.x)]
+        right = 8 - int(self.currPos.x)
+        print(right)
 
-        leftSide = int(self.currPos.x - 0)
-        rightSide = int(7 - self.currPos.x)
+        above = int(self.currPos.y) + 1
 
-        above = int(self.currPos.y - 0)
-        below = int(7 - self.currPos.y)
+        below = 8 - int(self.currPos.y)
 
-        for i in range(leftSide):
-            curr = int(self.currPos.x)
-            curr -= 1
-
-            if piecesOnBoard[int(self.currPos.y)][curr] == 0:
-                moves.append(pygame.Vector2(curr, self.currPos.y))
-            elif piecesOnBoard[int(self.currPos.y)][curr] != self.color:
-                moves.append(pygame.Vector2(curr, self.currPos.y))
+        for i in range(left):
+            if piecesOnBoard[int(self.currPos.y)][int(self.currPos.x - i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y))
+            elif piecesOnBoard[int(self.currPos.y)][int(self.currPos.x - i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y))
                 break
         
-        for i in range(rightSide):
-            curr = int(self.currPos.x)
-            curr += 1
-
-            if piecesOnBoard[int(self.currPos.y)][curr] == 0:
-                moves.append(pygame.Vector2(curr, self.currPos.y))
-            elif piecesOnBoard[int(self.currPos.y)][curr] != self.color:
-                moves.append(pygame.Vector2(curr, self.currPos.y))
+        for i in range(right):
+            if piecesOnBoard[int(self.currPos.y)][int(self.currPos.x + i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y))
+            elif piecesOnBoard[int(self.currPos.y)][int(self.currPos.x + i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y))
+                break
 
         for i in range(above):
-            curr = int(self.currPos.y)
-            curr -= 1
-
-            if piecesOnBoard[int(curr)][int(self.currPos.x)] == 0:
-                moves.append(pygame.Vector2(self.currPos.x, curr))
-            elif piecesOnBoard[int(curr)][int(self.currPos.x)] != self.color:
-                moves.append(pygame.Vector2(self.currPos.x, curr))
-            
-        for i in range(below):
-            curr = int(self.currPos.y)
-            curr += 1
-
-            if piecesOnBoard[int(curr)][int(self.currPos.x)] == 0:
-                moves.append(pygame.Vector2(self.currPos.x, curr))
-            elif piecesOnBoard[int(curr)][int(self.currPos.x)] != self.color:
-                moves.append(pygame.Vector2(self.currPos.x, curr))
-            
+            if piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y - i))
+            elif piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x)].color != self.color:
+                print(piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x)].color)
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y - i))
+                break
+        
         
 
+        print(moves)
+        
+            
 
-        #Extract only row and column from board
-        #Start at the index where the rook starts
-        #loop through both arrays for columns and row
-        #if its empty add it to the valid moves
-        #if its an enemy add it then stop
-        #else if its an ally stop 
 
-     
-        xLower = 0
-        xHigher = 7
-
-        yLower = 0
-        yHighter = 7
-
-        if self.color == "White":
-            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-1))
-        elif self.color == 'Black':
-            moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+1))
         return moves
        
 
