@@ -1,6 +1,9 @@
 import pygame
 import numpy as np
 
+
+#Maybe use a dictionary, where the key is the position, and value as the piece that lives there?
+
 #Abstract Class template
 class Piece():
     def __init__(self, currPos, color):
@@ -44,14 +47,56 @@ class Rook(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
         
-        row = piecesOnBoard[self.y]
+        row = piecesOnBoard[int(self.currPos.y)]
 
-        column = piecesOnBoard[:][self.x]
+        column = piecesOnBoard[:][int(self.currPos.x)]
 
-        blocked = False
+        leftSide = int(self.currPos.x - 0)
+        rightSide = int(7 - self.currPos.x)
 
-        while not blocked:
-            return
+        above = int(self.currPos.y - 0)
+        below = int(7 - self.currPos.y)
+
+        for i in range(leftSide):
+            curr = int(self.currPos.x)
+            curr -= 1
+
+            if piecesOnBoard[int(self.currPos.y)][curr] == 0:
+                moves.append(pygame.Vector2(curr, self.currPos.y))
+            elif piecesOnBoard[int(self.currPos.y)][curr] != self.color:
+                moves.append(pygame.Vector2(curr, self.currPos.y))
+                break
+        
+        for i in range(rightSide):
+            curr = int(self.currPos.x)
+            curr += 1
+
+            if piecesOnBoard[int(self.currPos.y)][curr] == 0:
+                moves.append(pygame.Vector2(curr, self.currPos.y))
+            elif piecesOnBoard[int(self.currPos.y)][curr] != self.color:
+                moves.append(pygame.Vector2(curr, self.currPos.y))
+
+        for i in range(above):
+            curr = int(self.currPos.y)
+            curr -= 1
+
+            if piecesOnBoard[int(curr)][int(self.currPos.x)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x, curr))
+            elif piecesOnBoard[int(curr)][int(self.currPos.x)] != self.color:
+                moves.append(pygame.Vector2(self.currPos.x, curr))
+            
+        for i in range(below):
+            curr = int(self.currPos.y)
+            curr += 1
+
+            if piecesOnBoard[int(curr)][int(self.currPos.x)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x, curr))
+            elif piecesOnBoard[int(curr)][int(self.currPos.x)] != self.color:
+                moves.append(pygame.Vector2(self.currPos.x, curr))
+            
+        
+
+
         #Extract only row and column from board
         #Start at the index where the rook starts
         #loop through both arrays for columns and row
