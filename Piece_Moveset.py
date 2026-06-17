@@ -80,13 +80,14 @@ class Rook(Piece):
                 print(piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x)].color)
                 moves.append(pygame.Vector2(self.currPos.x, self.currPos.y - i))
                 break
-        
-        
 
-        print(moves)
-        
-            
-
+        for i in range(below):
+            if piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y + i))
+            elif piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x)].color != self.color:
+                print(piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x)].color)
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y + i))
+                break
 
         return moves
        
@@ -99,7 +100,67 @@ class Bishop(Piece):
         self.value = 3
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Bishop.png")
-    def validateMove(self, newPos):
+    def validMoves(self, piecesOnBoard):
+        moves = []
+
+
+        # accessing upper left and right diagonals
+        """upperRD = piecesOnBoard[self.currPos.y + 1][self.currPos.x + 1]
+        lowerRD = piecesOnBoard[self.currPos.y - 1][self.currPos.x + 1]
+
+        upperLD = piecesOnBoard[self.currPos.y + 1][self.currPos.x - 1] 
+        lowerLD = piecesOnBoard[self.currPos.y - 1][self.currPos.x - 1] """
+
+
+
+        left  = int(self.currPos.x) + 1
+
+        right = 8 - int(self.currPos.x)
+
+        above = int(self.currPos.y) + 1
+
+        below = 8 - int(self.currPos.y)
+
+        upperRD = min(above, right)
+        upperLD = min(above, left)
+
+        lowerLD = min(below, left)
+        lowerRD = min(below, right)
+        
+
+        for i in range(upperRD):
+            if piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x + i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y - i))
+            elif piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x + i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y - i))
+                break
+        
+        for i in range(upperLD):
+            if piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x - i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y - i))
+            elif piecesOnBoard[int(self.currPos.y - i)][int(self.currPos.x - i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y - i))
+                break
+
+
+        for i in range(lowerRD):
+            if piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x + i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y + i))
+            elif piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x + i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x + i, self.currPos.y + i))
+                break
+        
+        
+        for i in range(lowerLD):
+            if piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x - i)] == 0:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y + i))
+            elif piecesOnBoard[int(self.currPos.y + i)][int(self.currPos.x - i)].color != self.color:
+                moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y + i))
+                break
+
+        return moves
+
+
         pass
 
 class Knight(Piece):
@@ -131,6 +192,6 @@ class King(Piece):
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}King.png")
 
-    def validateMove(self, newPos):
+    def validMoves(self, newPos):
         pass
         
