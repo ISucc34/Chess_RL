@@ -30,10 +30,17 @@ class Pawn(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
         
+        
         if self.color == "White":
             moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-1))
+            if(self.firstMove):
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y-2))
+                self.firstMove = False
         elif self.color == 'Black':
             moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+1))
+            if(self.firstMove):
+                moves.append(pygame.Vector2(self.currPos.x, self.currPos.y+2))
+                self.firstMove = False
 
         return moves
 
@@ -100,16 +107,11 @@ class Bishop(Piece):
         self.value = 3
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Bishop.png")
+
     def validMoves(self, piecesOnBoard):
         moves = []
 
 
-        # accessing upper left and right diagonals
-        """upperRD = piecesOnBoard[self.currPos.y + 1][self.currPos.x + 1]
-        lowerRD = piecesOnBoard[self.currPos.y - 1][self.currPos.x + 1]
-
-        upperLD = piecesOnBoard[self.currPos.y + 1][self.currPos.x - 1] 
-        lowerLD = piecesOnBoard[self.currPos.y - 1][self.currPos.x - 1] """
 
 
 
@@ -160,9 +162,6 @@ class Bishop(Piece):
 
         return moves
 
-
-        pass
-
 class Knight(Piece):
     def __init__(self, currPos, color):
         super().__init__(currPos = currPos, color= color)
@@ -170,8 +169,12 @@ class Knight(Piece):
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Knight.png")
         
-    def move(pos):
-        pos
+    def validMoves(self, piecesOnBoard):
+        moves = []
+
+
+        
+        
 
 
 
@@ -181,8 +184,9 @@ class Queen(Piece):
         self.value = 9
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Queen.png")
-    def move(pos):
-        pos
+
+    def validMoves(self, piecesOnBoard):
+        pass
 
 
 class King(Piece):
@@ -192,6 +196,6 @@ class King(Piece):
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}King.png")
 
-    def validMoves(self, newPos):
+    def validMoves(self, piecesOnBoard):
         pass
         
