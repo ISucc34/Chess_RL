@@ -111,10 +111,6 @@ class Bishop(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
 
-
-
-
-
         left  = int(self.currPos.x) + 1
 
         right = 8 - int(self.currPos.x)
@@ -172,6 +168,28 @@ class Knight(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
 
+        if(int(self.currPos.x + 2) < 7 & int(self.currPos.y) - 1 < 7):
+            moves.append(pygame.Vector2(self.currPos.x + 2, self.currPos.y-1))
+        if(int(self.currPos.x + 1) < 7 & int(self.currPos.y - 2) < 7):
+            moves.append(pygame.Vector2(self.currPos.x + 1, self.currPos.y-2))
+
+        if(int(self.currPos.x + 2) < 7 & int(self.currPos.y + 1) < 7):
+            moves.append(pygame.Vector2(self.currPos.x+2, self.currPos.y+1))
+        if(int(self.currPos.x + 1) < 7 & int(self.currPos.y + 2) < 7):
+            moves.append(pygame.Vector2(self.currPos.x+1, self.currPos.y+2))
+
+        if(int(self.currPos.x - 2) < 7 & int(self.currPos.y) - 1 < 7):
+            moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y-1))
+        if(int(self.currPos.x - 1) < 7 & int(self.currPos.y - 2) < 7):
+            moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y-2))
+
+        if(int(self.currPos.x - 2) < 7 & int(self.currPos.y + 1) < 7):
+            moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y+1))
+        if(int(self.currPos.x - 1) < 7 & int(self.currPos.y + 2) < 7):
+            moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y+2))
+    
+        return moves
+            
 
         
         
