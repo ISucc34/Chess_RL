@@ -168,24 +168,27 @@ class Knight(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
 
-        if(int(self.currPos.x + 2) < 7 & int(self.currPos.y) - 1 < 7):
+        lowerBound = 0
+        upperBound = 7
+
+        if(int(self.currPos.x + 2) < upperBound & int(self.currPos.y) - 1 > lowerBound):
             moves.append(pygame.Vector2(self.currPos.x + 2, self.currPos.y-1))
-        if(int(self.currPos.x + 1) < 7 & int(self.currPos.y - 2) < 7):
+        if(int(self.currPos.x + 1) < upperBound & int(self.currPos.y - 2) > lowerBound):
             moves.append(pygame.Vector2(self.currPos.x + 1, self.currPos.y-2))
 
-        if(int(self.currPos.x + 2) < 7 & int(self.currPos.y + 1) < 7):
+        if(int(self.currPos.x + 2) < upperBound & int(self.currPos.y + 1) < upperBound):
             moves.append(pygame.Vector2(self.currPos.x+2, self.currPos.y+1))
-        if(int(self.currPos.x + 1) < 7 & int(self.currPos.y + 2) < 7):
+        if(int(self.currPos.x + 1) < upperBound & int(self.currPos.y + 2) < upperBound):
             moves.append(pygame.Vector2(self.currPos.x+1, self.currPos.y+2))
 
-        if(int(self.currPos.x - 2) < 7 & int(self.currPos.y) - 1 < 7):
+        if(int(self.currPos.x - 2) > lowerBound & int(self.currPos.y) - 1 > lowerBound):
             moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y-1))
-        if(int(self.currPos.x - 1) < 7 & int(self.currPos.y - 2) < 7):
+        if(int(self.currPos.x - 1) > lowerBound & int(self.currPos.y - 2) > lowerBound):
             moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y-2))
 
-        if(int(self.currPos.x - 2) < 7 & int(self.currPos.y + 1) < 7):
+        if(int(self.currPos.x - 2) > lowerBound & int(self.currPos.y + 1) < upperBound):
             moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y+1))
-        if(int(self.currPos.x - 1) < 7 & int(self.currPos.y + 2) < 7):
+        if(int(self.currPos.x - 1) > lowerBound & int(self.currPos.y + 2) < upperBound):
             moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y+2))
     
         return moves
