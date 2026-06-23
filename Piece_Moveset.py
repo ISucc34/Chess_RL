@@ -167,30 +167,24 @@ class Knight(Piece):
         
     def validMoves(self, piecesOnBoard):
         moves = []
+        offsets = [
+            (2, -1),
+            (1, -2),
+            (2, 1),
+            (1, 2),
+            (-2, -1),
+            (-1, -2),
+            (-2, 1),
+            (-1, 2),
+        ]
 
-        lowerBound = 0
-        upperBound = 7
+        for dx, dy in offsets:
+            new_x = int(self.currPos.x + dx)
+            new_y = int(self.currPos.y + dy)
 
-        if(int(self.currPos.x + 2) < upperBound & int(self.currPos.y) - 1 > lowerBound):
-            moves.append(pygame.Vector2(self.currPos.x + 2, self.currPos.y-1))
-        if(int(self.currPos.x + 1) < upperBound & int(self.currPos.y - 2) > lowerBound):
-            moves.append(pygame.Vector2(self.currPos.x + 1, self.currPos.y-2))
+            if 0 <= new_x <= 7 and 0 <= new_y <= 7:
+                moves.append(pygame.Vector2(new_x, new_y))
 
-        if(int(self.currPos.x + 2) < upperBound & int(self.currPos.y + 1) < upperBound):
-            moves.append(pygame.Vector2(self.currPos.x+2, self.currPos.y+1))
-        if(int(self.currPos.x + 1) < upperBound & int(self.currPos.y + 2) < upperBound):
-            moves.append(pygame.Vector2(self.currPos.x+1, self.currPos.y+2))
-
-        if(int(self.currPos.x - 2) > lowerBound & int(self.currPos.y) - 1 > lowerBound):
-            moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y-1))
-        if(int(self.currPos.x - 1) > lowerBound & int(self.currPos.y - 2) > lowerBound):
-            moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y-2))
-
-        if(int(self.currPos.x - 2) > lowerBound & int(self.currPos.y + 1) < upperBound):
-            moves.append(pygame.Vector2(self.currPos.x-2, self.currPos.y+1))
-        if(int(self.currPos.x - 1) > lowerBound & int(self.currPos.y + 2) < upperBound):
-            moves.append(pygame.Vector2(self.currPos.x-1, self.currPos.y+2))
-    
         return moves
             
 

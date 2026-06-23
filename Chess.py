@@ -91,10 +91,6 @@ class GameState():
                 self.activeWhitePieces.remove(piece)
 
 
-    def in_bounds(self, pos):
-        return 0 <= int(pos.x) < 8 and 0 <= int(pos.y) < 8
-
-
     #Updates pieces on the board that were moved
     def update(self, piece, newPos):
         self.piece  = piece
@@ -106,9 +102,6 @@ class GameState():
         newRow = int(self.newPos.y)
         newCol = int(self.newPos.x)
           
-
-        if not self.in_bounds(self.newPos):
-            return False
 
         if oldRow == newRow and oldCol == newCol:
             return False
