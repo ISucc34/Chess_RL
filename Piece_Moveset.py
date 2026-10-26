@@ -25,7 +25,7 @@ class Pawn(Piece):
         self.value = 1
         self.color = color
         self.sprite = pygame.image.load(f"sprites/{color}Pawn.png")
-        self.firstMove = True #Implement two space movement later
+        self.firstMove = True #Implement unique pawn movement logic later
 
     def validMoves(self, piecesOnBoard):
         moves = []
@@ -56,18 +56,17 @@ class Rook(Piece):
     def validMoves(self, piecesOnBoard):
         moves = []
 
-        left  = int(self.currPos.x) +1
-        
+        left  = int(self.currPos.x) + 1 
 
         right = 8 - int(self.currPos.x)
-        print(right)
 
         above = int(self.currPos.y) + 1
 
         below = 8 - int(self.currPos.y)
 
-        for i in range(left):
-            if piecesOnBoard[int(self.currPos.y)][int(self.currPos.x - i)] == 0:
+
+        for i in range(left): 
+            if piecesOnBoard[int(self.currPos.y)][int(self.currPos.x - i)] == 0: 
                 moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y))
             elif piecesOnBoard[int(self.currPos.y)][int(self.currPos.x - i)].color != self.color:
                 moves.append(pygame.Vector2(self.currPos.x - i, self.currPos.y))
